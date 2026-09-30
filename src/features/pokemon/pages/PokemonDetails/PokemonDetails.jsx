@@ -1,5 +1,7 @@
 import { useParams } from "react-router";
 import { useGetPokemonByIdQuery } from "../../pokemonApi";
+import { getEvolutionData } from "../../utils/evolutionUtils";
+import EvolutionChain from "../../components/EvolutionChain/EvolutionChain";
 
 function PokemonDetails() {
   const {id} = useParams()
@@ -18,11 +20,20 @@ function PokemonDetails() {
     (entry) => entry.language.name === 'en'
   )?.flavor_text
 
+  const evolutionChain = getEvolutionData(
+    data.evolutionChain.chain,
+    data.items
+  )
+
   return (
     <section>
       <h2>{data.pokemon.name}</h2>
 
       <p>{description}</p>
+
+      <EvolutionChain 
+        evolutionChain={evolutionChain}
+      />
     </section>
   )
 }
