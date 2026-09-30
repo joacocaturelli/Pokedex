@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getEvolutionItemUrls } from "./utils/evolutionUtils";
 
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
@@ -46,29 +47,50 @@ export const pokemonApi = createApi({
 
     getPokemonById: builder.query({
       async queryFn(id, _queryApi, _extraOptions, fetchWithBQ) {
+        // Obtener datos del pokemon
         const pokemonResult = await fetchWithBQ(`pokemon/${id}`);
 
         if (pokemonResult.error) {
           return { error: pokemonResult.error };
         }
 
+        // Obtener datos de la especie
         const speciesResult = await fetchWithBQ(`pokemon-species/${id}`);
 
         if (speciesResult.error) {
           return { error: speciesResult.error };
         }
 
+        // Obtener la cadena evolutiva
         const evolutionChainResult = await fetchWithBQ(speciesResult.data.evolution_chain.url);
 
         if (evolutionChainResult.error) {
           return { error: evolutionChainResult.error };
         }
 
+        // Obtener las URLs de los objetos necesarios para las evoluciones
+        const itemsUrls = getEvolutionItemUrls(evolutionChainResult.data.chain);
+
+        // Obtener los datos de esos objetos
+        const itemResults = await Promise.all(itemsUrls.map((url) => fetchWithBQ(url)));
+
+        const failedItemRequest = itemResults.find((result) => result.error);
+
+        if (failedItemRequest) {
+          return { error: failedItemRequest.error };
+        }
+
+        const items = itemResults.map((result, index) => ({
+          ...result.data,
+          url: itemsUrls[index],
+        }));
+
         return {
           data: {
             pokemon: pokemonResult.data,
             species: speciesResult.data,
             evolutionChain: evolutionChainResult.data,
+            items,
           },
         };
       },
