@@ -44,10 +44,10 @@ function getEvolutionMethod(details, items) {
     });
   }
 
-  if (detail.min_happinsess) {
+  if (detail.min_happiness) {
     conditions.push({
       type: "happiness",
-      value: detail.min_happinsess,
+      value: detail.min_happiness,
     });
   }
 
@@ -108,7 +108,7 @@ export function getEvolutionItemUrls(node) {
     }
 
     if (detail.held_item) {
-      urls.push(detail.held_item);
+      urls.push(detail.held_item.url);
     }
   });
 
@@ -117,33 +117,4 @@ export function getEvolutionItemUrls(node) {
   });
 
   return urls;
-}
-
-export function formatCondition(condition) {
-  switch (condition.type) {
-    case "level":
-      return `Level ${condition.value}`;
-
-    case "happiness":
-      return `Happiness ${condition.value}`;
-
-    case "affection":
-      return `Affection ${condition.value}`;
-
-    case "time":
-      return condition.value === "day" ? "Day" : "Night";
-
-    case "move-type":
-      return `${capitalize(condition.value)}-type move`;
-
-    case "trade":
-      return "Trade";
-
-    default:
-      return condition.value;
-  }
-}
-
-function capitalize(value) {
-  return value.charAt(0).toUpperCase() + value.slice(1);
 }
