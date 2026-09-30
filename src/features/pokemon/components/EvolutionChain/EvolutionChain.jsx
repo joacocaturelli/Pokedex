@@ -89,43 +89,36 @@ function EvolutionPokemon ({ pokemon }) {
   )
 }
 
+function EvolutionNode({ pokemon }) {
+  return (
+    <div className={styles.node}>
+      <EvolutionPokemon pokemon={pokemon} />
+
+      {pokemon.evolvesTo.map((evolution) => (
+        <div 
+          key={evolution.id}
+          className={styles.evolution}
+        >
+          <div className={styles.arrow}>
+            →
+          </div>
+
+          <EvolutionMethod method={evolution.evolutionMethod} />
+
+          <EvolutionNode pokemon={evolution} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function EvolutionChain({ evolutionChain }) {
   return(
     <section className={styles.container}>
       <h2>Evolution Chain</h2>
 
       <div className={styles.chain}>
-        <EvolutionPokemon pokemon={evolutionChain} />
-
-        {evolutionChain.evolvesTo.map((evolution) => (
-          <div
-            className={styles.evolution}
-            key={evolution.id}
-          >
-            <div className={styles.arrow}>
-              →
-            </div>
-
-            <EvolutionMethod method={evolution.evolutionMethod}/>
-
-            <EvolutionPokemon pokemon={evolution} />
-
-            {evolution.evolvesTo.map((secondEvolution) => (
-              <div
-                className={styles.evolution}
-                key={secondEvolution.id}
-              >
-                <div className={styles.arrow}>
-                  →
-                </div>
-
-                <EvolutionMethod method={secondEvolution.evolutionMethod}/>
-
-                <EvolutionPokemon pokemon={secondEvolution} />
-              </div>
-            ))}
-          </div>
-        ))}
+        <EvolutionNode pokemon={evolutionChain}/>
       </div>
     </section>
   )

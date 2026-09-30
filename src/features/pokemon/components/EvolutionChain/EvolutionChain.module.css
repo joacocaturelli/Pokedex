@@ -62,3 +62,9 @@
   height: 40px;
   object-fit: contain;
 }
+
+.node {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}

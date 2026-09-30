@@ -14,7 +14,7 @@ function PokemonDetails() {
   if(error) {
     return <p>Ha ocurrido un error</p>
   }
-  console.log(data.evolutionData);
+
   const description = data.species.flavor_text_entries.find(
     (entry) => entry.language.name === 'en'
   )?.flavor_text
