@@ -73,7 +73,7 @@ function EvolutionPokemon ({ pokemon }) {
       className={styles.pokemon}
     >
       <img
-        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`} 
+        src={pokemon.image} 
         alt={pokemon.name}
         className={styles.pokemonImage} 
       />

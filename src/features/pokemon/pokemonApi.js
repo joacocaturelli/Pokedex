@@ -1,5 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getEvolutionItemUrls } from "./utils/evolutionUtils";
+import { getEvolutionItemUrls, getEvolutionData } from "./utils/evolutionUtils";
+
+function getEvolutionPokemonIds(node) {
+  const ids = [node.species.url.split("/").at(-2)];
+
+  node.evolves_to.forEach((evolution) => {
+    ids.push(...getEvolutionPokemonIds(evolution));
+  });
+
+  return ids;
+}
 
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
@@ -68,6 +78,26 @@ export const pokemonApi = createApi({
           return { error: evolutionChainResult.error };
         }
 
+        // Obtener los ids de toda la cadena evolutiva
+        const evolutionPokemonIds = getEvolutionPokemonIds(evolutionChainResult.data.chain);
+
+        // Hacer la peticion a la API para traer los datos de cada pokemon de la cadena
+        const evolutionPokemonResult = await Promise.all(
+          evolutionPokemonIds.map((id) => fetchWithBQ(`pokemon/${id}`)),
+        );
+
+        const failedEvolutionPokemon = evolutionPokemonResult.find((result) => result.error);
+
+        if (failedEvolutionPokemon) {
+          return { error: failedEvolutionPokemon.error };
+        }
+
+        const evolutionPokemon = evolutionPokemonResult.reduce((acc, result) => {
+          acc[result.data.id] = result.data;
+
+          return acc;
+        }, {});
+
         // Obtener las URLs de los objetos necesarios para las evoluciones
         const itemsUrls = getEvolutionItemUrls(evolutionChainResult.data.chain);
 
@@ -85,11 +115,18 @@ export const pokemonApi = createApi({
           url: itemsUrls[index],
         }));
 
+        const evolutionData = getEvolutionData(
+          evolutionChainResult.data.chain,
+          items,
+          evolutionPokemon,
+        );
+
         return {
           data: {
             pokemon: pokemonResult.data,
             species: speciesResult.data,
             evolutionChain: evolutionChainResult.data,
+            evolutionData,
             items,
           },
         };

@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import { useGetPokemonByIdQuery } from "../../pokemonApi";
-import { getEvolutionData } from "../../utils/evolutionUtils";
 import EvolutionChain from "../../components/EvolutionChain/EvolutionChain";
 
 function PokemonDetails() {
@@ -15,15 +14,10 @@ function PokemonDetails() {
   if(error) {
     return <p>Ha ocurrido un error</p>
   }
-
+  console.log(data.evolutionData);
   const description = data.species.flavor_text_entries.find(
     (entry) => entry.language.name === 'en'
   )?.flavor_text
-
-  const evolutionChain = getEvolutionData(
-    data.evolutionChain.chain,
-    data.items
-  )
 
   return (
     <section>
@@ -32,7 +26,7 @@ function PokemonDetails() {
       <p>{description}</p>
 
       <EvolutionChain 
-        evolutionChain={evolutionChain}
+        evolutionChain={data.evolutionData}
       />
     </section>
   )

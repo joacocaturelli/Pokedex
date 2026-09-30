@@ -1,4 +1,4 @@
-function getpokemonId(url) {
+function getPokemonId(url) {
   // Obtenemos el Id de la url
   // https://pokeapi.co/api/v2/pokemon-species/25/
   return url.split("/").at(-2);
@@ -84,15 +84,20 @@ function getEvolutionMethod(details, items) {
   };
 }
 
-export function getEvolutionData(node, items) {
+export function getEvolutionData(node, items, evolutionPokemon) {
+  const id = getPokemonId(node.species.url);
+  const pokemon = evolutionPokemon[id];
+
   return {
     name: node.species.name,
-    id: getpokemonId(node.species.url),
+    id,
+    image: pokemon?.sprites.front_default,
+    imageShiny: pokemon?.sprites.front_shiny,
 
     // Recursividad: Volvemos a llamar a la misma funcion
     // para buscar la data de la siguiente evolucion del pokemon
     evolvesTo: node.evolves_to.map((evolution) => ({
-      ...getEvolutionData(evolution, items),
+      ...getEvolutionData(evolution, items, evolutionPokemon),
 
       evolutionMethod: getEvolutionMethod(evolution.evolution_details, items),
     })),
