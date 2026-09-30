@@ -1,12 +1,10 @@
-.header {
+header {
   background-color: #f37021;
-  color: white;
-  text-align: center;
   padding: 15px;
   position: relative;
 }
 
-.poke-logo {
+.pokelogo {
   width: 200px;
 
 }

@@ -1,10 +1,14 @@
+import pokemonLogo from '../../assets/img/Pokemon_logo.svg.png'
 import styles from './Header.module.css'
 
 function Header() {
   return (
     <header>
-      <img src="../../assets/img/Pokemon_logo.svg.png" alt="Logo Pokémon" />
-      <h1>Pokemon</h1>
+      <img 
+        src={pokemonLogo} 
+        alt="Logo Pokémon"
+        className={styles.pokelogo}
+      />
     </header>
   )
 }
