@@ -1,6 +1,34 @@
 import { Link } from "react-router";
-import { formatCondition } from "../../utils/evolutionUtils";
 import styles from './EvolutionChain.module.css'
+
+function formatCondition(condition) {
+  switch (condition.type) {
+    case "level":
+      return `Level ${condition.value}`;
+
+    case "happiness":
+      return `Happiness ${condition.value}`;
+
+    case "affection":
+      return `Affection ${condition.value}`;
+
+    case "time":
+      return condition.value === "day" ? "Day" : "Night";
+
+    case "move-type":
+      return `${capitalize(condition.value)}-type move`;
+
+    case "trade":
+      return "Trade";
+
+    default:
+      return condition.value;
+  }
+}
+
+function capitalize(value) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
 
 function EvolutionMethod({ method }) {
   if(!method) {
