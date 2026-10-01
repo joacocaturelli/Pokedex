@@ -89,6 +89,17 @@ function EvolutionPokemon ({ pokemon }) {
   )
 }
 
+function EvolutionArrow() {
+  return (
+    <img
+      className={styles.arrow}
+      src="/arrow.png"
+      alt=""
+      aria-hidden="true"
+    />
+  )
+}
+
 function EvolutionNode({ pokemon }) {
   const evolutionCount = pokemon.evolvesTo.length
 
@@ -102,27 +113,31 @@ function EvolutionNode({ pokemon }) {
     layoutClass = styles.grid
   }
 
+  const isBranching = evolutionCount > 1
+
   return (
     <div className={styles.node}>
       <EvolutionPokemon pokemon={pokemon} />
 
       {evolutionCount > 0 && (
-        <div className={`${styles.evolutions} ${layoutClass}`}>
-          {pokemon.evolvesTo.map((evolution) => (
-            <div 
-              key={evolution.id}
-              className={styles.evolution}
-            >
-              <div className={styles.arrow}>
-                →
+        <>
+          {isBranching && <EvolutionArrow />}
+
+          <div className={`${styles.evolutions} ${layoutClass}`}>
+            {pokemon.evolvesTo.map((evolution) => (
+              <div 
+                key={evolution.id}
+                className={styles.evolution}
+              >
+                {!isBranching && <EvolutionArrow />}
+        
+                <EvolutionMethod method={evolution.evolutionMethod} />
+        
+                <EvolutionNode pokemon={evolution} />
               </div>
-    
-              <EvolutionMethod method={evolution.evolutionMethod} />
-    
-              <EvolutionNode pokemon={evolution} />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
