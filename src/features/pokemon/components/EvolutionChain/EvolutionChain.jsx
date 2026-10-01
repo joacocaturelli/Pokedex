@@ -90,24 +90,40 @@ function EvolutionPokemon ({ pokemon }) {
 }
 
 function EvolutionNode({ pokemon }) {
+  const evolutionCount = pokemon.evolvesTo.length
+
+  let layoutClass = styles.linear
+
+  if (evolutionCount === 2) {
+    layoutClass = styles.branches
+  }
+
+  if (evolutionCount >= 3) {
+    layoutClass = styles.grid
+  }
+
   return (
     <div className={styles.node}>
       <EvolutionPokemon pokemon={pokemon} />
 
-      {pokemon.evolvesTo.map((evolution) => (
-        <div 
-          key={evolution.id}
-          className={styles.evolution}
-        >
-          <div className={styles.arrow}>
-            →
-          </div>
-
-          <EvolutionMethod method={evolution.evolutionMethod} />
-
-          <EvolutionNode pokemon={evolution} />
+      {evolutionCount > 0 && (
+        <div className={`${styles.evolutions} ${layoutClass}`}>
+          {pokemon.evolvesTo.map((evolution) => (
+            <div 
+              key={evolution.id}
+              className={styles.evolution}
+            >
+              <div className={styles.arrow}>
+                →
+              </div>
+    
+              <EvolutionMethod method={evolution.evolutionMethod} />
+    
+              <EvolutionNode pokemon={evolution} />
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 }
