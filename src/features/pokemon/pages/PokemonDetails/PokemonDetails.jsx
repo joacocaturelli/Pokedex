@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router";
 import { useGetPokemonByIdQuery } from "../../pokemonApi";
 import EvolutionChain from "../../components/EvolutionChain/EvolutionChain";
+import PokemonNavigation from "../../components/PokemonNavigation/PokemonNavigation";
 import styles from "./PokemonDetails.module.css";
 
 function PokemonDetails() {
@@ -43,6 +44,8 @@ function PokemonDetails() {
 
   return (
     <section className={styles.pokemonDetails}>
+
+      <PokemonNavigation pokemonId={pokemon.id} />
 
       {/* Hero */}
       <section className={styles.hero}>
