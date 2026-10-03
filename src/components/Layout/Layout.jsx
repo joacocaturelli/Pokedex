@@ -4,10 +4,12 @@ import Footer from '../Footer/Footer'
 import { Outlet } from 'react-router'
 
 function Layout() {
-  return(
-    <div>
+  return (
+    <div className={styles.layout}>
       <Header />
-      <Outlet />
+      <main className={styles.main}>
+        <Outlet />
+      </main>
       <Footer />
     </div>
   )
