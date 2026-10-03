@@ -1,45 +1,58 @@
 .container {
+  width: 100%;
   margin-top: 0;
 }
 
 .chain {
-  padding: 1rem 0;
   width: 100%;
-  overflow-x: hidden;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  overflow-y: visible;
 }
+
+
+/* =========================================================
+   NODO
+   ========================================================= */
 
 .node {
   display: flex;
   align-items: center;
   gap: clamp(0.35rem, 1.5vw, 1rem);
-  min-width: 0;
-  width: 100%;
+  min-width: max-content;
 }
+
+
+/* =========================================================
+   EVOLUCIONES
+   ========================================================= */
 
 .evolutions {
   display: flex;
   align-items: center;
   gap: clamp(0.35rem, 1.5vw, 1rem);
-  min-width: 0;
-  flex: 1;
+  min-width: max-content;
 }
 
 .linear {
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 }
 
-/* Contenedor de una ramificación */
+
+/* =========================================================
+   RAMIFICACIONES
+   ========================================================= */
 
 .branch {
   display: flex;
   align-items: center;
   gap: clamp(0.35rem, 1.5vw, 1rem);
-  flex: 1;
-  min-width: 0;
+  min-width: max-content;
 }
-
-/* Configuración común para ramas y grids */
 
 .branches,
 .grid {
@@ -48,27 +61,34 @@
   gap: clamp(0.5rem, 1.5vw, 1.5rem);
 }
 
-/* Ralts, Wurmple, etc. */
 
+/*
+ * Dos evoluciones:
+ *
+ *        → Vaporeon
+ * Eevee
+ *        → Jolteon
+ */
 .branches {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
-  width: 100%;
 }
 
-/* Eevee, Tyrogue, etc. */
 
+/*
+ * Tres o más evoluciones.
+ */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  flex: 1;
-  width: 100%;
 }
 
-/* Cada evolución */
+
+/* =========================================================
+   CADA EVOLUCIÓN
+   ========================================================= */
 
 .evolution {
   display: flex;
@@ -77,86 +97,88 @@
   min-width: 0;
 }
 
-/* Cada rama ocupa todo el ancho disponible */
-
 .branches .evolution {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  min-width: 0;
+  min-width: max-content;
 }
-
-/* Cada evolución del grid de Eevee */
 
 .grid .evolution {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
   min-width: 0;
 }
 
-/* Transición individual de una rama */
+
+/* =========================================================
+   TRANSICIONES
+   ========================================================= */
 
 .branchTransition {
   position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   flex: 0 0 auto;
   min-width: 0;
 }
-
-/* Método superpuesto sobre la flecha */
 
 .branchTransition .method {
   position: absolute;
   z-index: 1;
 }
 
-/* Métodos debajo de las evoluciones del grid */
-
-.grid .method {
-  min-height: 2.2em;
-}
-
-/* Transición de una evolución lineal */
 
 .transition {
   position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 1 auto;
+
+  flex: 0 0 auto;
   min-width: 0;
 }
-
-/* Método superpuesto sobre la flecha */
 
 .transition .method {
   position: absolute;
   z-index: 1;
 }
 
-/* Todas las flechas */
+
+/* =========================================================
+   FLECHAS
+   ========================================================= */
 
 .arrow {
-  width: clamp(38px, 7vw, 72px);
-  height: clamp(38px, 7vw, 72px);
-  flex: 0 1 auto;
+  width: clamp(40px, 5vw, 64px);
+  height: clamp(40px, 5vw, 64px);
+
+  flex: 0 0 auto;
+
   object-fit: contain;
   opacity: 0.45;
 }
+
+
+/* =========================================================
+   POKÉMON
+   ========================================================= */
 
 .pokemon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 0 1 auto;
+
+  flex: 0 0 auto;
   min-width: 0;
+
   color: inherit;
   text-decoration: none;
 }
@@ -164,14 +186,19 @@
 .pokemonImage {
   width: clamp(55px, 8vw, 90px);
   height: clamp(55px, 8vw, 90px);
+
   object-fit: contain;
+
+  transition: transform 0.2s ease;
 }
 
 .pokemonName {
   margin-top: 0.25rem;
+
   text-transform: capitalize;
   font-weight: 600;
   font-size: clamp(0.7rem, 1.5vw, 1rem);
+
   text-align: center;
   white-space: nowrap;
 }
@@ -181,21 +208,136 @@
   opacity: 0.7;
 }
 
+
+/* =========================================================
+   MÉTODOS
+   ========================================================= */
+
 .method {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   gap: 0.15rem;
+
   max-width: 70px;
   min-width: 0;
+
   text-align: center;
+
   font-size: clamp(0.55rem, 1.2vw, 0.8rem);
   line-height: 1.1;
+}
+
+.grid .method {
+  min-height: 2.2em;
 }
 
 .itemImage {
   width: clamp(18px, 3vw, 28px);
   height: clamp(18px, 3vw, 28px);
+
   object-fit: contain;
+}
+
+
+/* =========================================================
+   INTERACCIÓN
+   ========================================================= */
+
+.pokemon:hover .pokemonImage {
+  transform: scale(1.05);
+}
+
+.pokemon:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .chain {
+    /*
+     * IMPORTANTE:
+     * Seguimos centrando la cadena.
+     *
+     * Si la cadena cabe:
+     *        [  cadena centrada  ]
+     *
+     * Si no cabe:
+     *        [cadena más ancha → scroll]
+     */
+    justify-content: center;
+
+    padding: 1rem 0;
+  }
+
+  .node {
+    gap: 0.5rem;
+  }
+
+  .evolutions {
+    gap: 0.5rem;
+  }
+
+  .branch {
+    gap: 0.5rem;
+  }
+
+  .evolution {
+    gap: 0.5rem;
+  }
+
+  .arrow {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .chain {
+    /*
+     * NO usar flex-start aquí.
+     * La cadena debe permanecer centrada.
+     */
+    justify-content: center;
+
+    padding: 0.75rem 0;
+  }
+
+  .node {
+    gap: 0.35rem;
+  }
+
+  .evolutions {
+    gap: 0.35rem;
+  }
+
+  .branch {
+    gap: 0.35rem;
+  }
+
+  .evolution {
+    gap: 0.35rem;
+  }
+
+  .arrow {
+    width: 42px;
+    height: 42px;
+  }
+
+  .method {
+    max-width: 60px;
+  }
 }
