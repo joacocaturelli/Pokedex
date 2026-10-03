@@ -3,12 +3,16 @@ import styles from './Header.module.css'
 
 function Header() {
   return (
-    <header>
-      <img 
-        src={pokemonLogo} 
-        alt="Logo Pokémon"
-        className={styles.pokelogo}
-      />
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <div className={styles.pokeball} aria-hidden="true" />
+        <img
+          src={pokemonLogo}
+          alt="Pokémon"
+          className={styles.pokelogo}
+        />
+        <span className={styles.subtitle}>Pokédex</span>
+      </div>
     </header>
   )
 }
