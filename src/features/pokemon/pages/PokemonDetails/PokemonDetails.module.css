@@ -1,0 +1,493 @@
+.pokemonDetails {
+  width: 100%;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   HERO
+   ========================= */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  align-items: center;
+  gap: 48px;
+  margin-bottom: 32px;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageContainer img {
+  width: min(100%, 420px);
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.shinyToggle {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+
+  padding: 8px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.shinyToggle:hover {
+  opacity: 0.8;
+}
+
+.shinyToggle:active {
+  transform: scale(0.96);
+}
+
+.heroInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.heroInfo h1 {
+  margin: 0;
+
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1;
+
+  text-transform: capitalize;
+}
+
+.generation {
+  margin: 0;
+
+  color: var(--text);
+  opacity: 0.65;
+
+  font-size: 18px;
+}
+
+
+/* =========================
+   TYPES
+   ========================= */
+
+.types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.type {
+  min-width: 80px;
+  padding: 7px 16px;
+
+  border-radius: 999px;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-align: center;
+  text-transform: capitalize;
+}
+
+
+/* Pokémon type colors */
+
+.normal {
+  background: #a8a77a;
+}
+
+.fire {
+  background: #ee8130;
+}
+
+.water {
+  background: #6390f0;
+}
+
+.electric {
+  background: #f7d02c;
+}
+
+.grass {
+  background: #7ac74c;
+}
+
+.ice {
+  background: #96d9d6;
+}
+
+.fighting {
+  background: #c22e28;
+}
+
+.poison {
+  background: #a33ea1;
+}
+
+.ground {
+  background: #e2bf65;
+}
+
+.flying {
+  background: #a98ff3;
+}
+
+.psychic {
+  background: #f95587;
+}
+
+.bug {
+  background: #a6b91a;
+}
+
+.rock {
+  background: #b6a136;
+}
+
+.ghost {
+  background: #735797;
+}
+
+.dragon {
+  background: #6f35fc;
+}
+
+.dark {
+  background: #705746;
+}
+
+.steel {
+  background: #b7b7ce;
+}
+
+.fairy {
+  background: #d685ad;
+}
+
+
+/* =========================
+   INFORMATION
+   ========================= */
+
+.info {
+  padding: 32px 0;
+
+  border-top: 1px solid var(--border);
+}
+
+
+/* =========================
+   DESCRIPTION
+   ========================= */
+
+.description {
+  width: 100%;
+
+  text-align: center;
+}
+
+.description h2 {
+  margin: 0 0 16px;
+}
+
+.description p {
+  max-width: 800px;
+
+  margin: 0 auto;
+
+  line-height: 1.7;
+}
+
+
+/* =========================
+   ABILITIES + STATS
+   ========================= */
+
+.detailsGrid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 48px;
+
+  margin-top: 48px;
+}
+
+.detailsGrid h2 {
+  margin: 0 0 20px;
+}
+
+
+/* =========================
+   ABILITIES
+   ========================= */
+
+.abilities {
+  min-width: 0;
+}
+
+.ability {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  padding: 16px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  text-align: left;
+}
+
+.ability + .ability {
+  margin-top: 12px;
+}
+
+.ability span {
+  font-size: 12px;
+
+  opacity: 0.6;
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ability strong {
+  font-size: 17px;
+
+  text-transform: capitalize;
+}
+
+.ability p {
+  margin: 4px 0 0;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  opacity: 0.8;
+}
+
+
+/* =========================
+   HEIGHT / WEIGHT
+   ========================= */
+
+.measurements {
+  display: flex;
+
+  gap: 24px;
+
+  margin-top: 20px;
+}
+
+.measurements > div {
+  display: flex;
+  align-items: baseline;
+
+  gap: 8px;
+}
+
+.measurements span {
+  font-size: 12px;
+
+  opacity: 0.5;
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.measurements strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* =========================
+   BASE STATS
+   ========================= */
+
+.stats {
+  min-width: 0;
+}
+
+.statsList {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.stat {
+  display: grid;
+
+  grid-template-columns: 100px 45px 1fr;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.statHeader {
+  display: contents;
+}
+
+.statHeader span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.statHeader strong {
+  font-size: 14px;
+
+  text-align: right;
+}
+
+.statBar {
+  height: 12px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: var(--border);
+}
+
+.statBarFill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: var(--accent);
+
+  transition: width 0.3s ease;
+}
+
+
+/* =========================
+   EVOLUTION CHAIN
+   ========================= */
+
+.evolution {
+  padding: 32px 0 16px;
+
+  border-top: 1px solid var(--border);
+
+  text-align: center;
+}
+
+.evolution h2 {
+  margin: 0 0 24px;
+}
+
+
+/* =========================
+   TABLET / MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+  .pokemonDetails {
+    padding: 24px 20px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+
+    gap: 24px;
+  }
+
+  .imageContainer img {
+    width: min(100%, 340px);
+  }
+
+  .heroInfo {
+    align-items: center;
+
+    text-align: center;
+  }
+
+  .heroInfo h1 {
+    font-size: clamp(40px, 12vw, 60px);
+  }
+
+  .types {
+    justify-content: center;
+  }
+
+  .detailsGrid {
+    grid-template-columns: 1fr;
+
+    gap: 32px;
+  }
+
+  .description p {
+    max-width: none;
+  }
+
+  .measurements {
+    justify-content: center;
+  }
+}
+
+
+/* =========================
+   SMALL MOBILE
+   ========================= */
+
+@media (max-width: 480px) {
+  .pokemonDetails {
+    padding: 20px 16px;
+  }
+
+  .imageContainer img {
+    width: min(100%, 280px);
+  }
+
+  .shinyToggle {
+    right: 4px;
+    bottom: 4px;
+
+    padding: 7px 12px;
+
+    font-size: 13px;
+  }
+
+  .stat {
+    grid-template-columns: 80px 40px 1fr;
+
+    gap: 8px;
+  }
+
+  .statHeader span,
+  .statHeader strong {
+    font-size: 13px;
+  }
+
+  .statBar {
+    height: 10px;
+  }
+}
