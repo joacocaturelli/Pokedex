@@ -18,10 +18,12 @@ function PokemonDetails() {
   const description = data.species.flavor_text_entries.find(
     (entry) => entry.language.name === 'en'
   )?.flavor_text
-
+  
   return (
     <section>
       <h2>{data.pokemon.name}</h2>
+
+      <img src={data.pokemon.sprites.front_default} alt={data.pokemon.name} />
 
       <p>{description}</p>
 
