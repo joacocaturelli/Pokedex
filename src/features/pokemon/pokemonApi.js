@@ -11,6 +11,10 @@ function getEvolutionPokemonIds(node) {
   return ids;
 }
 
+function getPokemonIdFromUrl(url) {
+  return Number(url.split("/").at(-2));
+}
+
 export const pokemonApi = createApi({
   reducerPath: "pokemonApi",
 
@@ -19,30 +23,89 @@ export const pokemonApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getPokemon: builder.query({
+    /*
+     * Lista básica de todos los Pokémon.
+     *
+     * Solamente necesitamos id + name para realizar:
+     * - búsqueda
+     * - filtro por generación
+     * - paginación
+     *
+     * RTK Query cachea este resultado, por lo que no se vuelve
+     * a solicitar cada vez que cambia un filtro.
+     */
+    getPokemonList: builder.query({
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
-        const listResult = await fetchWithBQ("pokemon?limit=10&offset=0");
+        const result = await fetchWithBQ("pokemon?limit=1025&offset=0");
 
-        if (listResult.error) {
-          return { error: listResult.error };
+        if (result.error) {
+          return { error: result.error };
         }
 
-        const pokemonList = listResult.data.results;
+        const pokemon = result.data.results.map((item) => ({
+          id: getPokemonIdFromUrl(item.url),
+          name: item.name,
+        }));
 
-        const pokemonDetails = await Promise.all(
-          pokemonList.map((pokemon) => fetchWithBQ(pokemon.url)),
-        );
+        return {
+          data: pokemon,
+        };
+      },
 
-        const failedRequest = pokemonDetails.find((result) => result.error);
+      keepUnusedDataFor: 3600,
+    }),
+
+    /*
+     * Devuelve los Pokémon pertenecientes al tipo seleccionado.
+     *
+     * Ejemplo:
+     * type = "fire"
+     *
+     * No descargamos los detalles completos aquí.
+     * Solamente necesitamos sus IDs para aplicar el filtro.
+     */
+    getPokemonByType: builder.query({
+      async queryFn(type, _queryApi, _extraOptions, fetchWithBQ) {
+        const result = await fetchWithBQ(`type/${type}`);
+
+        if (result.error) {
+          return { error: result.error };
+        }
+
+        const ids = result.data.pokemon.map(({ pokemon }) => getPokemonIdFromUrl(pokemon.url));
+
+        return {
+          data: ids,
+        };
+      },
+
+      keepUnusedDataFor: 3600,
+    }),
+
+    /*
+     * Obtiene los detalles completos solamente de los Pokémon
+     * que actualmente se muestran en la página.
+     */
+    getPokemonPage: builder.query({
+      async queryFn(ids, _queryApi, _extraOptions, fetchWithBQ) {
+        if (!ids?.length) {
+          return { data: [] };
+        }
+
+        const pokemonResults = await Promise.all(ids.map((id) => fetchWithBQ(`pokemon/${id}`)));
+
+        const failedRequest = pokemonResults.find((result) => result.error);
 
         if (failedRequest) {
           return { error: failedRequest.error };
         }
 
         return {
-          data: pokemonDetails.map((result) => result.data),
+          data: pokemonResults.map((result) => result.data).sort((a, b) => a.id - b.id),
         };
       },
+
+      keepUnusedDataFor: 300,
     }),
 
     getPokemonById: builder.query({
@@ -104,7 +167,6 @@ export const pokemonApi = createApi({
           evolutionPokemon,
         );
 
-        // Obtener información completa de las habilidades
         const abilityResults = await Promise.all(
           pokemonResult.data.abilities.map(({ ability }) => fetchWithBQ(ability.url)),
         );
@@ -142,4 +204,9 @@ export const pokemonApi = createApi({
   }),
 });
 
-export const { useGetPokemonQuery, useGetPokemonByIdQuery } = pokemonApi;
+export const {
+  useGetPokemonListQuery,
+  useGetPokemonByTypeQuery,
+  useGetPokemonPageQuery,
+  useGetPokemonByIdQuery,
+} = pokemonApi;
