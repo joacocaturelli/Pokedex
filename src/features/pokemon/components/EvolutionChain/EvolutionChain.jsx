@@ -103,6 +103,12 @@ function EvolutionArrow() {
 function EvolutionNode({ pokemon }) {
   const evolutionCount = pokemon.evolvesTo.length
 
+  if (evolutionCount === 0) {
+    return <EvolutionPokemon pokemon={pokemon} />
+  }
+
+  const isBranching = evolutionCount > 1
+
   let layoutClass = styles.linear
 
   if (evolutionCount === 2) {
@@ -113,34 +119,63 @@ function EvolutionNode({ pokemon }) {
     layoutClass = styles.grid
   }
 
-  const isBranching = evolutionCount > 1
-
   return (
     <div className={styles.node}>
       <EvolutionPokemon pokemon={pokemon} />
 
-      {evolutionCount > 0 && (
-        <>
-          {isBranching && <EvolutionArrow />}
+      {isBranching ? (
+        <div className={styles.branch}>
+          {evolutionCount >= 3 && <EvolutionArrow />}
 
           <div className={`${styles.evolutions} ${layoutClass}`}>
             {pokemon.evolvesTo.map((evolution) => (
-              <div 
+              <div
                 key={evolution.id}
                 className={styles.evolution}
               >
-                {!isBranching && <EvolutionArrow />}
-        
-                <EvolutionMethod method={evolution.evolutionMethod} />
-        
+                {evolutionCount === 2 ? (
+                  <div className={styles.branchTransition}>
+                    <EvolutionArrow />
+
+                    <EvolutionMethod
+                      method={evolution.evolutionMethod}
+                    />
+                  </div>
+                ) : null}
+
                 <EvolutionNode pokemon={evolution} />
+
+                {evolutionCount >= 3 && (
+                  <EvolutionMethod
+                    method={evolution.evolutionMethod}
+                  />
+                )}
               </div>
             ))}
           </div>
-        </>
+        </div>
+      ) : (
+        <div className={styles.evolutions}>
+          {pokemon.evolvesTo.map((evolution) => (
+            <div
+              key={evolution.id}
+              className={styles.evolution}
+            >
+              <div className={styles.transition}>
+                <EvolutionArrow />
+
+                <EvolutionMethod
+                  method={evolution.evolutionMethod}
+                />
+              </div>
+
+              <EvolutionNode pokemon={evolution} />
+            </div>
+          ))}
+        </div>
       )}
     </div>
-  );
+  )
 }
 
 function EvolutionChain({ evolutionChain }) {
