@@ -1,5 +1,5 @@
 .container {
-  margin-top: 2rem;
+  margin-top: 0;
 }
 
 .chain {
@@ -26,6 +26,7 @@
 
 .linear {
   flex-direction: row;
+  justify-content: center;
 }
 
 /* Contenedor de una ramificación */
@@ -53,6 +54,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   flex: 1;
   width: 100%;
 }
@@ -81,7 +83,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100%;
   min-width: 0;
 }

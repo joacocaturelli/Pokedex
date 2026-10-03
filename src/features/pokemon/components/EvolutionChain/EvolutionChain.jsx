@@ -66,14 +66,14 @@ function EvolutionMethod({ method }) {
   return null
 }
 
-function EvolutionPokemon ({ pokemon }) {
+function EvolutionPokemon ({ pokemon, showShiny }) {
   return(
     <Link
       to={`/pokemon/${pokemon.id}`}
       className={styles.pokemon}
     >
       <img
-        src={pokemon.image} 
+        src={showShiny ? pokemon.imageShiny : pokemon.image} 
         alt={pokemon.name}
         className={styles.pokemonImage} 
       />
@@ -100,11 +100,11 @@ function EvolutionArrow() {
   )
 }
 
-function EvolutionNode({ pokemon }) {
+function EvolutionNode({ pokemon, showShiny }) {
   const evolutionCount = pokemon.evolvesTo.length
 
   if (evolutionCount === 0) {
-    return <EvolutionPokemon pokemon={pokemon} />
+    return <EvolutionPokemon pokemon={pokemon} showShiny={showShiny} />
   }
 
   const isBranching = evolutionCount > 1
@@ -121,7 +121,7 @@ function EvolutionNode({ pokemon }) {
 
   return (
     <div className={styles.node}>
-      <EvolutionPokemon pokemon={pokemon} />
+      <EvolutionPokemon pokemon={pokemon} showShiny={showShiny} />
 
       {isBranching ? (
         <div className={styles.branch}>
@@ -143,7 +143,7 @@ function EvolutionNode({ pokemon }) {
                   </div>
                 ) : null}
 
-                <EvolutionNode pokemon={evolution} />
+                <EvolutionNode pokemon={evolution} showShiny={showShiny} />
 
                 {evolutionCount >= 3 && (
                   <EvolutionMethod
@@ -169,7 +169,7 @@ function EvolutionNode({ pokemon }) {
                 />
               </div>
 
-              <EvolutionNode pokemon={evolution} />
+              <EvolutionNode pokemon={evolution} showShiny={showShiny} />
             </div>
           ))}
         </div>
@@ -178,13 +178,11 @@ function EvolutionNode({ pokemon }) {
   )
 }
 
-function EvolutionChain({ evolutionChain }) {
+function EvolutionChain({ evolutionChain, showShiny }) {
   return(
     <section className={styles.container}>
-      <h2>Evolution Chain</h2>
-
-      <div className={styles.chain}>
-        <EvolutionNode pokemon={evolutionChain}/>
+      <div className={styles.chain}>  
+        <EvolutionNode pokemon={evolutionChain} showShiny={showShiny}/>
       </div>
     </section>
   )
