@@ -1,0 +1,16 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem clamp(1rem, 3vw, 2.25rem) 3rem;
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 1.25rem 1rem 2rem;
+  }
+}
