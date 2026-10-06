@@ -1,12 +1,96 @@
-header {
+.header {
+  position: relative;
   width: 100vw;
   margin-left: calc((100% - 100vw) / 2);
-  background-color: #f37021;
-  padding: 15px;
-  position: relative;
+  overflow: hidden;
+  padding: 1.15rem 1.5rem;
   box-sizing: border-box;
+  background: linear-gradient(135deg, #2f5fe5 0%, #4778f4 55%, #5d88f5 100%);
+  box-shadow: 0 8px 24px rgba(42, 79, 180, 0.18);
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -55px;
+  top: -90px;
+  border: 24px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.pokeball {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    var(--red) 0 45%,
+    #fff 45% 55%,
+    #26344d 55% 100%
+  );
+  box-shadow: 0 3px 10px rgba(20, 31, 58, 0.2);
+}
+
+.pokeball::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  left: 50%;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
 }
 
 .pokelogo {
-  width: 200px;
+  width: clamp(150px, 20vw, 210px);
+  filter: drop-shadow(0 4px 2px rgba(20, 31, 58, 0.18));
+}
+
+.subtitle {
+  padding-left: 0.85rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-family: var(--heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 560px) {
+  .header {
+    padding: 0.9rem 1rem;
+  }
+
+  .pokeball {
+    width: 27px;
+    height: 27px;
+    border-width: 2px;
+  }
+
+  .pokeball::after {
+    width: 8px;
+    height: 8px;
+    border-width: 2px;
+  }
+
+  .subtitle {
+    display: none;
+  }
 }
