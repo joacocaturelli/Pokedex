@@ -1,10 +1,12 @@
 header {
+  width: 100vw;
+  margin-left: calc((100% - 100vw) / 2);
   background-color: #f37021;
   padding: 15px;
   position: relative;
+  box-sizing: border-box;
 }
 
 .pokelogo {
   width: 200px;
-
 }
